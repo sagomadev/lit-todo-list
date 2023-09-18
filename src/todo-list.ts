@@ -8,7 +8,12 @@ type ToDoItem = {
 
 @customElement("todo-list")
 export class ToDoList extends LitElement {
-  // TODO: Add styles here
+  static styles = css`
+    .completed {
+      text-decoration-line: line-through;
+      color: #777;
+    }
+  `;
 
   @state()
   private _listItems = [
@@ -22,7 +27,10 @@ export class ToDoList extends LitElement {
       <ul>
         ${this._listItems.map(
           (item) =>
-            html` <li class="TODO" @click=${() => this.toggleCompleted(item)}>
+            html` <li
+              class=${item.completed ? "completed" : ""}
+              @click=${() => this.toggleCompleted(item)}
+            >
               ${item.text}
             </li>`
         )}
@@ -45,6 +53,7 @@ export class ToDoList extends LitElement {
       ...this._listItems,
       { text: this.input.value, completed: false },
     ];
+
     this.input.value = "";
   }
 }
